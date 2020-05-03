@@ -1,92 +1,89 @@
 <script>
-	import Book from './book.svelte'
-	import Button from './button.svelte'
-	import Purchase from './purchase.svelte'
-	let title = '';
-	let pages = 0;
-	let description = '';
+  import Book from "./book.svelte";
+  import Button from "./button.svelte";
+  import Purchase from "./purchase.svelte";
+  let title = "";
+  let pages = 0;
+  let description = "";
 
-	let books =[];
-	let purchases = [];
+  let books = [];
+  let purchases = [];
 
-	function setTitle(event){
-		title = event.target.value;
-	}
+  function setTitle(event) {
+    title = event.target.value;
+  }
 
-	function addBook(){
-		const newBook = {
-			title : title,
-			pages : pages,
-			description: description
+  function addBook() {
+    const newBook = {
+      title: title,
+      pages: pages,
+      description: description
+    };
+    books = books.concat(newBook);
+  }
 
-		};
-		books = books.concat(newBook)
-	}
-
-	function purchaseBook(event){
-		const selectedTitle= event.detail;
-		purchases = purchases.concat({
-			...books.find(book => book.title === selectedTitle)
-		});
-	}
-
+  function purchaseBook(event) {
+    const selectedTitle = event.detail;
+    purchases = purchases.concat({
+      ...books.find(book => book.title === selectedTitle)
+    });
+  }
 </script>
 
 <style>
-	h1 {
-		color: purple;
-		
-	}
+  h1 {
+    color: purple;
+  }
 
-	section{
-		margin: auto;
-		width :30rem;
-		
-	}
+  section {
+    margin: auto;
+    width: 30rem;
+  }
 
-	label,input,textarea{width: 100%}
+  label,
+  input,
+  textarea {
+    width: 100%;
+  }
 </style>
 
 <section>
-	<div> 
-		<label for="title">Title</label>
-		<input type="text" id="title" value={title} on:input={setTitle}/>
-	</div>
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" value={title} on:input={setTitle} />
+  </div>
 
-	<div>
-		<label for="pages"> pages</label>
-		<input type="number" id="price" value={pages} bind:value={pages}/>
-	</div>
+  <div>
+    <label for="pages">pages</label>
+    <input type="number" id="price" value={pages} />
+  </div>
 
-	<div>
-		<label for="description">Description</label>
-		<textarea rows="3" id="description" bind:value ={description}/>
-	</div>
+  <div>
+    <label for="description">Description</label>
+    <textarea rows="3" id="description" bind:value={description} />
+  </div>
 
-	<Button on:click={addBook}>ADD Book</Button>
+  <Button on:click={addBook}>ADD Book</Button>
 
 </section>
 
 <section>
-{#if books.length === 0}
-	<p>
-	   Add a new book 
-	</p>
-	{:else}
-	{#each books as book}
-		<Book bookTitle={book.title} 
-		bookPages={book.pages} 
-		bookDescription={book.description}
-		on:buy={purchaseBook}
-		/>
-	{/each}
-{/if}
+  {#if books.length === 0}
+    <p>Add a new book</p>
+  {:else}
+    {#each books as book}
+      <Book
+        bookTitle={book.title}
+        bookPages={book.pages}
+        bookDescription={book.description}
+        on:buy={purchaseBook} />
+    {/each}
+  {/if}
 
 </section>
 
-<hr>
+<hr />
 
 <section>
-	<Purchase books ={purchases}  /> 
+  <Purchase books={purchases} />
 </section>
-
